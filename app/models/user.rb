@@ -11,8 +11,10 @@
 
 class User < ActiveRecord::Base
  
+ #This create a virtual password attribute
+ attr_accessor :password
  #This is important for preventing a mass assignment vulunarability
- attr_accessible :name, :email
+ attr_accessible :name, :email, :password, :password_confirmation
 
  email_regex =/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -21,5 +23,10 @@ class User < ActiveRecord::Base
  validates :email, :presence => true,
                    :format => {:with => email_regex},
                    :uniqueness => { :case_sensitive => false }
+
+ #Automatically create the virtual attribute 'password_confirmation'
+ validates :password, :presence => true,
+                      :confirmation => true,
+                      :length => { :within => 6..41 }
 
 end
