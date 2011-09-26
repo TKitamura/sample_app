@@ -46,6 +46,11 @@ describe UsersController do
       get 'new'
       response.should have_selector("title",:content => "Sign up")
     end
+
+    it "should have a name field" do
+      get :new
+      response.should have_selector("input[name='user[name]'][type ='text']")
+    end
   end
 
   describe "POST'create'" do
@@ -90,7 +95,7 @@ describe UsersController do
 
       it "should have a welcome message" do
         post :create, :user => @attr
-        flash[:success],should =~/welcome to the sample app/i
+        flash[:success].should =~ /welcome to the sample app/i
       end
     end
   end
